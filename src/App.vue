@@ -25,7 +25,12 @@
             <div class="column">{{ todo.content }}</div>
             <div class="column is-5 has-text-right">
               <button class="button is-light">&check;</button>
-              <button class="button is-danger ml-3">&cross;</button>
+              <button
+                @click="deleteTodo(todo.id)"
+                class="button is-danger ml-3"
+              >
+                &cross;
+              </button>
             </div>
           </div>
         </div>
@@ -40,16 +45,16 @@ import { ref } from "vue";
 import { v4 as uuidv4 } from "uuid";
 /* todo data */
 const todos = ref([
-  // {
-  //   id: "id1",
-  //   content: "do it later",
-  //   done: false,
-  // },
-  // {
-  //   id: "id2",
-  //   content: "lets do it",
-  //   done: false,
-  // },
+  {
+    id: "id1",
+    content: "do it later",
+    done: false,
+  },
+  {
+    id: "id2",
+    content: "lets do it",
+    done: false,
+  },
 ]);
 /* todo add */
 const newTodoContent = ref("");
@@ -61,6 +66,10 @@ const addTodo = () => {
   };
   todos.value.unshift(newTodo);
   newTodoContent.value = "";
+};
+/* todo delete */
+const deleteTodo = (id) => {
+  todos.value = todos.value.filter((todo) => todo.id !== id);
 };
 </script>
 
