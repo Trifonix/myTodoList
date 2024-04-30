@@ -9,11 +9,11 @@
         <button class="button is-info">Add</button>
       </p>
     </div>
-    <div v-for="i in 3" :key="i" class="card mb-3">
+    <div v-for="todo in todos" :key="todo.id" class="card mb-3">
       <div class="card-content">
         <div class="content">
           <div class="columns is-mobile is-vcentered">
-            <div class="column">Try to finish work!</div>
+            <div class="column">{{ todo.content }}</div>
             <div class="column is-5 has-text-right">
               <button class="button is-light">&check;</button>
               <button class="button is-danger ml-3">&cross;</button>
@@ -24,6 +24,25 @@
     </div>
   </div>
 </template>
+
+<script setup>
+/* import ref */
+import { ref } from "vue";
+/* todo data */
+const todos = ref([
+  {
+    id: "id1",
+    content: "do it later",
+    done: false,
+  },
+  {
+    id: "id2",
+    content: "lets do it",
+    done: false,
+  },
+]);
+</script>
+
 
 <style>
 @import "bulma/css/bulma.min.css";
