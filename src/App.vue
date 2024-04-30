@@ -1,14 +1,23 @@
 <template>
   <div class="wrapper-todo">
     <div class="title has-text-centered">My ToDo List!</div>
-    <div class="field is-grouped mb-5">
-      <p class="control is-expanded">
-        <input class="input" type="text" placeholder="New task" />
-      </p>
-      <p class="control">
-        <button class="button is-info">Add</button>
-      </p>
-    </div>
+    <form @submit.prevent="addTodo">
+      <div class="field is-grouped mb-5">
+        <p class="control is-expanded">
+          <input
+            v-model="newTodoContent"
+            class="input"
+            type="text"
+            placeholder="New task"
+          />
+        </p>
+        <p class="control">
+          <button :disabled="!newTodoContent" class="button is-info">
+            Add
+          </button>
+        </p>
+      </div>
+    </form>
     <div v-for="todo in todos" :key="todo.id" class="card mb-3">
       <div class="card-content">
         <div class="content">
@@ -26,23 +35,34 @@
 </template>
 
 <script setup>
-/* import ref */
+/* import ref, uuid */
 import { ref } from "vue";
+import { v4 as uuidv4 } from "uuid";
 /* todo data */
 const todos = ref([
-  {
-    id: "id1",
-    content: "do it later",
-    done: false,
-  },
-  {
-    id: "id2",
-    content: "lets do it",
-    done: false,
-  },
+  // {
+  //   id: "id1",
+  //   content: "do it later",
+  //   done: false,
+  // },
+  // {
+  //   id: "id2",
+  //   content: "lets do it",
+  //   done: false,
+  // },
 ]);
+/* todo add */
+const newTodoContent = ref("");
+const addTodo = () => {
+  const newTodo = {
+    id: uuidv4(),
+    content: newTodoContent.value,
+    done: false,
+  };
+  todos.value.unshift(newTodo);
+  newTodoContent.value = "";
+};
 </script>
-
 
 <style>
 @import "bulma/css/bulma.min.css";
