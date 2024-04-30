@@ -56,9 +56,11 @@
 </template>
 
 <script setup>
-/* import ref, uuid */
-import { ref } from "vue";
+/* import ref, uuid, firebase */
+import { ref, onMounted } from "vue";
 import { v4 as uuidv4 } from "uuid";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
 /* todo data */
 const todos = ref([
   // {
@@ -72,6 +74,21 @@ const todos = ref([
   //   done: true,
   // },
 ]);
+/* todo get */
+onMounted(async () => {
+  const querySnapshot = await getDocs(collection(db, "todos"));
+  let fbTodos = [];
+  querySnapshot.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+    const todo = {
+      id: doc.id,
+      content: doc.data().content,
+      done: doc.data().done,
+    };
+    fbTodos.push(todo);
+  });
+  todos.value = fbTodos;
+});
 /* todo add */
 const newTodoContent = ref("");
 const addTodo = () => {
